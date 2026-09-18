@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Adventure - Wireframe Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 32px;
+        }
+
+        .screens-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .screen {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .screen:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .screen-header {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: white;
+            padding: 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .screen-content {
+            padding: 24px;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Welcome Screen */
+        .welcome-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            padding: 40px 20px;
+        }
+
+        .robot-icon {
+            font-size: 60px;
+            animation: bob 3s ease-in-out infinite;
+        }
+
+        @keyframes bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2C3E50;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #7F8C8D;
+            max-width: 300px;
+        }
+
+        .primary-btn {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+            transition: all 0.2s ease;
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .primary-btn:hover {
+            background: #357ABD;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+        }
+
+        .secondary-btn {
+            background: #ECF0F1;
+            color: #2C3E50;
+            border: 2px solid #BDC3C7;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .secondary-btn:hover {
+            background: white;
+            border-color: #4A90E2;
+        }
+
+        .difficulty-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .radio-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .radio-group input {
+            cursor: pointer;
+        }
+
+        /* Game Screen */
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 16px;
+            height: 100%;
+        }
+
+        .game-board-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .game-board {
+            width: 100%;
+            aspect-ratio: 1;
+            background: white;
+            border: 3px solid #BDC3C7;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 1px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .grid-cell {
+            background: alternating;
+            border: 1px solid #ECF0F1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .grid-cell:nth-child(odd) {
+            background: #FFFFFF;
+        }
+
+        .grid-cell:nth-child(even) {
+            background: #F8F9FA;
+        }
+
+        .block-palette {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .block {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            cursor: grab;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s ease;
+        }
+
+        .block:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .block-move { background: #E74C3C; }
+        .block-loop { background: #F1C40F; color: #2C3E50; }
+        .block-condition { background: #9B59B6; }
+
+        .workspace {
+            border: 2px dashed #BDC3C7;
+            border-radius: 8px;
+            padding: 12px;
+            min-height: 80px;
+            background: #F8F9FA;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-content: flex-start;
+        }
+
+        .block-in-workspace {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            background: #4A90E2;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .instructions {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #2C3E50;
+            background: #F8F9FA;
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .button-group button {
+            flex: 1;
+            min-width: 80px;
+        }
+
+        /* Success Screen */
+        .success-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            padding: 40px 20px;
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-icon {
+            font-size: 80px;
+            animation: bounce 0.6s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .success-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2ECC71;
+        }
+
+        .success-subtitle {
+            font-size: 16px;
+            color: #2C3E50;
+            margin-bottom: 10px;
+        }
+
+        .success-badges {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 10px 0;
+            font-size: 14px;
+            color: #2C3E50;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .game-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .screens-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .screen-content {
+                min-height: auto;
+            }
+        }
+
+        .legend {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .legend h2 {
+            color: #2C3E50;
+            margin-bottom: 16px;
+            font-size: 20px;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .color-sample {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .color-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            border: 1px solid #BDC3C7;
+        }
+
+        .color-info {
+            font-size: 13px;
+        }
+
+        .color-info strong {
+            display: block;
+            color: #2C3E50;
+            margin-bottom: 2px;
+        }
+
+        .color-info code {
+            color: #7F8C8D;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Code Adventure – Design Wireframes</h1>
+
+        <div class="screens-grid">
+            <!-- Screen 1: Welcome -->
+            <div class="screen">
+                <div class="screen-header">Screen 1: Welcome</div>
+                <div class="screen-content welcome-content">
+                    <div class="robot-icon">🤖</div>
+                    <div class="title">Code Adventure</div>
+                    <div class="subtitle">Learn to program with a friendly robot!</div>
+                    <button class="primary-btn">Start Playing ➜</button>
+                    <div class="difficulty-options">
+                        <label class="radio-group">
+                            <input type="radio" name="difficulty"> Easy (3 moves)
+                        </label>
+                        <label class="radio-group">
+                            <input type="radio" name="difficulty" checked> Medium (5 moves)
+                        </label>
+                        <label class="radio-group">
+                            <input type="radio" name="difficulty"> Hard (10 moves)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen 2: Level 1 -->
+            <div class="screen">
+                <div class="screen-header">Screen 2: Level 1 – Sequence</div>
+                <div class="screen-content" style="padding: 12px;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px; font-weight: 600; font-size: 13px; color: #2C3E50;">
+                        <div>← Back | Level 1: Reach the Star</div>
+                        <div>🏆 0</div>
+                    </div>
+                    <div class="game-layout">
+                        <div class="game-board-section">
+                            <div class="game-board">
+                                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                                <div class="grid-cell">🤖</div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell">⭐</div><div class="grid-cell"></div><div class="grid-cell"></div>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div class="instructions">
+                                <strong>Goal:</strong> Move the robot to the star in 4 moves. You can only move forward or turn.
+                            </div>
+                            <div style="font-weight: 600; font-size: 12px; color: #2C3E50;">Available Blocks:</div>
+                            <div class="block-palette">
+                                <div class="block block-move">→ Forward</div>
+                                <div class="block block-move">↻ Right</div>
+                                <div class="block block-move">↺ Left</div>
+                            </div>
+                            <div style="font-weight: 600; font-size: 12px; color: #2C3E50; margin-top: 8px;">Your Sequence:</div>
+                            <div class="workspace">
+                                <div class="block-in-workspace">→</div>
+                                <div class="block-in-workspace">→</div>
+                                <div class="block-in-workspace">↻</div>
+                            </div>
+                            <div class="button-group">
+                                <button class="primary-btn" style="margin: 0; flex: 1;">Run</button>
+                                <button class="secondary-btn" style="flex: 1;">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen 3: Level 2 -->
+            <div class="screen">
+                <div class="screen-header">Screen 3: Level 2 – Loops</div>
+                <div class="screen-content" style="padding: 12px;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px; font-weight: 600; font-size: 13px; color: #2C3E50;">
+                        <div>← Back | Level 2: Create a Loop</div>
+                        <div>🏆 1</div>
+                    </div>
+                    <div class="game-layout">
+                        <div class="game-board-section">
+                            <div class="game-board">
+                                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                                <div class="grid-cell">🤖</div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell">⭐</div><div class="grid-cell"></div><div class="grid-cell"></div>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div class="instructions">
+                                <strong>Goal:</strong> Use a REPEAT block to move to the star more efficiently!
+                            </div>
+                            <div style="font-weight: 600; font-size: 12px; color: #2C3E50;">Available Blocks:</div>
+                            <div class="block-palette">
+                                <div class="block block-move">→</div>
+                                <div class="block block-move">↻</div>
+                                <div class="block block-loop">🔁 Loop</div>
+                            </div>
+                            <div style="font-weight: 600; font-size: 12px; color: #2C3E50; margin-top: 8px;">Your Sequence:</div>
+                            <div class="workspace">
+                                <div style="background: #F1C40F; color: #2C3E50; padding: 8px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); border-left: 3px solid #DAA520;">
+                                    🔁 Loop 2x
+                                    <div style="margin-left: 8px; margin-top: 4px; font-size: 10px;">[→] [↻]</div>
+                                </div>
+                            </div>
+                            <div class="button-group">
+                                <button class="primary-btn" style="margin: 0; flex: 1;">Run</button>
+                                <button class="secondary-btn" style="flex: 1;">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen 4: Level 3 -->
+            <div class="screen">
+                <div class="screen-header">Screen 4: Level 3 – Conditionals</div>
+                <div class="screen-content" style="padding: 12px;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px; font-weight: 600; font-size: 13px; color: #2C3E50;">
+                        <div>← Back | Level 3: Make Decisions</div>
+                        <div>🏆 2</div>
+                    </div>
+                    <div class="game-layout">
+                        <div class="game-board-section">
+                            <div class="game-board">
+                                <div class="grid-cell"></div><div class="grid-cell">🔵</div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                                <div class="grid-cell"></div><div class="grid-cell">🤖</div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell">⭐</div><div class="grid-cell"></div><div class="grid-cell"></div>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div class="instructions">
+                                <strong>Goal:</strong> Use an IF block to change behavior based on what's ahead!
+                            </div>
+                            <div style="font-weight: 600; font-size: 12px; color: #2C3E50;">Available Blocks:</div>
+                            <div class="block-palette">
+                                <div class="block block-move">→</div>
+                                <div class="block block-move">↻</div>
+                                <div class="block block-loop">🔁</div>
+                                <div class="block block-condition">❓ IF</div>
+                            </div>
+                            <div style="font-weight: 600; font-size: 12px; color: #2C3E50; margin-top: 8px;">Your Sequence:</div>
+                            <div class="workspace">
+                                <div class="block-in-workspace">→</div>
+                                <div style="background: #9B59B6; color: white; padding: 8px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); border-left: 3px solid #6C3483;">
+                                    ❓ IF clear
+                                    <div style="margin-left: 8px; margin-top: 4px; font-size: 10px;">[→]</div>
+                                </div>
+                            </div>
+                            <div class="button-group">
+                                <button class="primary-btn" style="margin: 0; flex: 1;">Run</button>
+                                <button class="secondary-btn" style="flex: 1;">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen 5: Success -->
+            <div class="screen">
+                <div class="screen-header">Screen 5: Success / Congratulations</div>
+                <div class="screen-content success-content">
+                    <div class="success-icon">🎉</div>
+                    <div class="success-title">Great Job!</div>
+                    <div class="success-subtitle">You Completed Level 3! 🌟</div>
+                    <div class="success-badges">
+                        <div class="badge">✓ Goal Reached</div>
+                        <div class="badge">✓ Efficient</div>
+                    </div>
+                    <div style="font-size: 14px; color: #2C3E50;">🤖 The robot learned today!</div>
+                    <button class="primary-btn" style="margin-top: 20px;">Next Level ➜</button>
+                    <button class="secondary-btn" style="margin-top: 8px; width: 100%; max-width: 250px;">Replay This Level</button>
+                    <div style="display: flex; gap: 8px; margin-top: 16px; font-size: 12px;">
+                        <button class="secondary-btn">Home</button>
+                        <button class="secondary-btn">Share Score</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design System Legend -->
+        <div class="legend">
+            <h2>Design System – Color Palette</h2>
+            <div class="color-grid">
+                <div class="color-sample">
+                    <div class="color-box" style="background: #4A90E2;"></div>
+                    <div class="color-info">
+                        <strong>Primary Blue</strong>
+                        <code>#4A90E2</code>
+                    </div>
+                </div>
+                <div class="color-sample">
+                    <div class="color-box" style="background: #2ECC71;"></div>
+                    <div class="color-info">
+                        <strong>Success Green</strong>
+                        <code>#2ECC71</code>
+                    </div>
+                </div>
+                <div class="color-sample">
+                    <div class="color-box" style="background: #E74C3C;"></div>
+                    <div class="color-info">
+                        <strong>Block Red (Move)</strong>
+                        <code>#E74C3C</code>
+                    </div>
+                </div>
+                <div class="color-sample">
+                    <div class="color-box" style="background: #F1C40F;"></div>
+                    <div class="color-info">
+                        <strong>Block Yellow (Loop)</strong>
+                        <code>#F1C40F</code>
+                    </div>
+                </div>
+                <div class="color-sample">
+                    <div class="color-box" style="background: #9B59B6;"></div>
+                    <div class="color-info">
+                        <strong>Block Purple (If)</strong>
+                        <code>#9B59B6</code>
+                    </div>
+                </div>
+                <div class="color-sample">
+                    <div class="color-box" style="background: #F8F9FA;"></div>
+                    <div class="color-info">
+                        <strong>Background Light</strong>
+                        <code>#F8F9FA</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
