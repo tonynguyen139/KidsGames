@@ -10,7 +10,7 @@ export class GameEngine {
     this.robotState = {
       x: config.startX,
       y: config.startY,
-      direction: 'UP',
+      direction: config.initialDirection || 'UP',
       isMoving: false,
       isSuccess: false,
       isFailed: false,
@@ -25,7 +25,7 @@ export class GameEngine {
     this.robotState = {
       x: this.config.startX,
       y: this.config.startY,
-      direction: 'UP',
+      direction: this.config.initialDirection || 'UP',
       isMoving: false,
       isSuccess: false,
       isFailed: false,

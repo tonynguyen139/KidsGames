@@ -28,4 +28,5 @@ export interface LevelConfig {
   goalY: number;
   obstacles: Array<{ x: number; y: number }>;
   maxCommands: number;
+  initialDirection?: Direction;
 }

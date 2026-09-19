@@ -10,6 +10,7 @@ export const LEVELS: LevelConfig[] = [
     goalY: 5,
     obstacles: [],
     maxCommands: 10,
+    initialDirection: 'RIGHT',
   },
   {
     gridWidth: 10,
@@ -24,6 +25,7 @@ export const LEVELS: LevelConfig[] = [
       { x: 6, y: 3 },
     ],
     maxCommands: 12,
+    initialDirection: 'UP',
   },
   {
     gridWidth: 10,
@@ -39,6 +41,7 @@ export const LEVELS: LevelConfig[] = [
       { x: 7, y: 3 },
     ],
     maxCommands: 15,
+    initialDirection: 'UP',
   },
 ];
 

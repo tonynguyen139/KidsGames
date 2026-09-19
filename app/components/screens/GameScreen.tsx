@@ -26,7 +26,7 @@ export const GameScreen: React.FC<GameScreenProps> = ({
   const [robotState, setRobotState] = useState<RobotState>({
     x: levelConfig.startX,
     y: levelConfig.startY,
-    direction: 'UP',
+    direction: levelConfig.initialDirection || 'UP',
     isMoving: false,
     isSuccess: false,
     isFailed: false,
@@ -86,7 +86,7 @@ export const GameScreen: React.FC<GameScreenProps> = ({
     setRobotState({
       x: levelConfig.startX,
       y: levelConfig.startY,
-      direction: 'UP',
+      direction: levelConfig.initialDirection || 'UP',
       isMoving: false,
       isSuccess: false,
       isFailed: false,
