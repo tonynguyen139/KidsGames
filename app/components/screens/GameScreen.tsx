@@ -104,6 +104,28 @@ export const GameScreen: React.FC<GameScreenProps> = ({
     }
   };
 
+  const calculateHint = () => {
+    const distX = Math.abs(levelConfig.goalX - levelConfig.startX);
+    const distY = Math.abs(levelConfig.goalY - levelConfig.startY);
+    const directionX = levelConfig.goalX > levelConfig.startX ? 'right' : 'left';
+    const directionY = levelConfig.goalY > levelConfig.startY ? 'down' : 'up';
+
+    if (levelIndex === 0) {
+      return {
+        hint: `The goal is ${distX} spaces to the ${directionX}.`,
+        solution: `Add ${distX} "Move" blocks to reach the goal.`,
+      };
+    } else if (levelIndex === 1) {
+      return {
+        hint: `Go ${distY} spaces ${directionY}, then ${distX} spaces ${directionX}. Plan your path around the obstacles!`,
+        solution: `Use loops to navigate efficiently.`,
+      };
+    }
+    return { hint: 'Plan your path to reach the goal.', solution: 'Combine moves and conditionals.' };
+  };
+
+  const hintData = calculateHint();
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[var(--bg-light)] to-[var(--bg-dark)] p-4">
       <div className="max-w-7xl mx-auto">
@@ -139,6 +161,13 @@ export const GameScreen: React.FC<GameScreenProps> = ({
 
           {/* Controls and Block Workspace */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Hint Section */}
+            <div className="bg-[var(--primary-blue)] bg-opacity-15 border-l-4 border-[var(--primary-blue)] rounded-lg p-4 text-[var(--text-dark)]">
+              <p className="font-semibold text-sm mb-2">💡 Hint</p>
+              <p className="text-sm mb-2">{hintData.hint}</p>
+              <p className="text-xs text-[var(--text-light)]">{hintData.solution}</p>
+            </div>
+
             {/* Command Palette */}
             <CommandPalette
               commands={paletteCommands}
