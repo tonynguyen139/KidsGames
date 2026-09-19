@@ -103,15 +103,34 @@ interface CommandSequenceProps {
   commands: Command[];
   onRemove: (id: string) => void;
   onClear: () => void;
+  onDragOver?: (e: React.DragEvent) => void;
+  onDrop?: (e: React.DragEvent) => void;
 }
 
 export const CommandSequence: React.FC<CommandSequenceProps> = ({
   commands,
   onRemove,
   onClear,
+  onDragOver,
+  onDrop,
 }) => {
+  const [isDraggingOver, setIsDraggingOver] = React.useState(false);
+
   return (
-    <div className="bg-[var(--white)] p-4 rounded-lg border-2 border-dashed border-[var(--border-gray)] min-h-32">
+    <div
+      className={`bg-[var(--white)] p-4 rounded-lg border-2 border-dashed min-h-32 transition-all ${
+        isDraggingOver ? 'border-[var(--success-green)] bg-[var(--success-green)] bg-opacity-5' : 'border-[var(--border-gray)]'
+      }`}
+      onDragOver={(e) => {
+        onDragOver?.(e);
+        setIsDraggingOver(true);
+      }}
+      onDragLeave={() => setIsDraggingOver(false)}
+      onDrop={(e) => {
+        onDrop?.(e);
+        setIsDraggingOver(false);
+      }}
+    >
       <div className="flex justify-between items-center mb-3">
         <h3 className="text-sm font-bold text-[var(--text-dark)]">Your Program</h3>
         {commands.length > 0 && (

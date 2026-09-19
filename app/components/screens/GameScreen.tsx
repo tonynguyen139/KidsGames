@@ -148,6 +148,8 @@ export const GameScreen: React.FC<GameScreenProps> = ({
               commands={sequence}
               onRemove={handleRemoveCommand}
               onClear={handleClearSequence}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
             />
 
             {/* Control Buttons */}
