@@ -45,7 +45,7 @@ export const LEVELS: LevelConfig[] = [
   },
 ];
 
-export const PALETTE_COMMANDS: Command[] = [
+const BASIC_COMMANDS: Command[] = [
   {
     id: 'move',
     type: 'MOVE_FORWARD',
@@ -64,6 +64,12 @@ export const PALETTE_COMMANDS: Command[] = [
     label: 'Right',
     color: '#E74C3C',
   },
+];
+
+export const PALETTE_COMMANDS: Command[] = BASIC_COMMANDS;
+
+export const PALETTE_COMMANDS_LEVEL2: Command[] = [
+  ...BASIC_COMMANDS,
   {
     id: 'repeat',
     type: 'REPEAT',
@@ -75,7 +81,7 @@ export const PALETTE_COMMANDS: Command[] = [
 ];
 
 export const PALETTE_COMMANDS_LEVEL3: Command[] = [
-  ...PALETTE_COMMANDS,
+  ...PALETTE_COMMANDS_LEVEL2,
   {
     id: 'if_obstacle',
     type: 'IF_OBSTACLE',

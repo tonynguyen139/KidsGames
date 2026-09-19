@@ -4,7 +4,7 @@ import { CommandPalette, CommandSequence } from '../game/CommandBlock';
 import { PrimaryButton, SecondaryButton } from '../ui/Button';
 import { GameEngine } from '../game/gameEngine';
 import { Command, RobotState, LevelConfig } from '../game/types';
-import { LEVELS, PALETTE_COMMANDS, PALETTE_COMMANDS_LEVEL3 } from '../game/levels';
+import { LEVELS, PALETTE_COMMANDS, PALETTE_COMMANDS_LEVEL2, PALETTE_COMMANDS_LEVEL3 } from '../game/levels';
 import { SuccessScreen } from './SuccessScreen';
 
 interface GameScreenProps {
@@ -19,8 +19,10 @@ export const GameScreen: React.FC<GameScreenProps> = ({
   onGoHome,
 }) => {
   const levelConfig = LEVELS[levelIndex];
-  const isLevel3 = levelIndex === 2;
-  const paletteCommands = isLevel3 ? PALETTE_COMMANDS_LEVEL3 : PALETTE_COMMANDS;
+  const paletteCommands =
+    levelIndex === 0 ? PALETTE_COMMANDS :
+    levelIndex === 1 ? PALETTE_COMMANDS_LEVEL2 :
+    PALETTE_COMMANDS_LEVEL3;
 
   const [sequence, setSequence] = useState<Command[]>([]);
   const [robotState, setRobotState] = useState<RobotState>({
