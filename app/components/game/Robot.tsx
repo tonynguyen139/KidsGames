@@ -45,7 +45,7 @@ export const Robot: React.FC<RobotProps> = ({
     >
       <g
         transform={`translate(${x}, ${y}) rotate(${rotation})`}
-        style={{ transformOrigin: '0 0' }}
+        style={{ transformOrigin: 'center center' }}
       >
         <rect
           x={-robotSize / 2}
